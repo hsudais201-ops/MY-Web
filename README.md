@@ -1,47 +1,42 @@
 # CineFlix
 
-A responsive, Netflix-inspired movie catalog for films you own, created, or are authorized to distribute.
+A responsive movie catalog for films you own, created, or are authorized to distribute.
+
+## Live site
+https://cineflix-stream.pages.dev
 
 ## Features
-- Dark streaming-style homepage and featured movie
-- Search and genre filters
-- Responsive movie cards for phones, tablets, and desktop
-- In-page video player
-- Add movies with title, category, year, duration, poster URL, video URL, and description
-- Local movie library manager with delete, JSON export, and JSON import
-- One sample short film: **Big Buck Bunny** (Blender Foundation, Creative Commons Attribution 3.0)
+- Responsive movie catalog, search, genre filters, and in-page video player
+- Shared public movie catalog backed by Cloudflare D1
+- Admin-protected add and delete operations
+- Add a movie using a direct HTTPS video URL and poster URL
+- Rights/license details stored with each movie
+- TMDB metadata discovery (TMDB does not provide full movie streams)
 
-## Run locally
-Open `index.html` in a browser, or serve this folder with any static web server.
+## Add a movie
+1. Open the live site and tap **＋ Add movie**.
+2. Enter the title, category, poster HTTPS URL, and direct video HTTPS URL (MP4/WebM).
+3. Enter the rights/license details and optional source page.
+4. Enter the private CineFlix admin key and publish.
+5. The movie appears in the shared catalog for all visitors.
 
-## Publish with GitHub Pages
-1. Open repository **Settings → Pages**.
-2. Choose **Deploy from a branch**.
-3. Select branch `main` and folder `/ (root)`.
-4. Save and wait for GitHub Pages to publish the site.
+The admin key is stored as a Cloudflare Pages secret, not in the public website code. Do not share it or place it in GitHub.
 
-## Add and manage movies
-Use **＋ Add movie** to add a movie, then **Manage** to remove entries or export/import a JSON backup.
+## Current video hosting limitation
+The shared catalog is active, but **video-file upload storage is not enabled yet**. The current workflow references a direct HTTPS video URL from a host you control or are licensed to use. To enable uploads from a phone/computer, activate Cloudflare R2 in the Cloudflare Dashboard, create a bucket named `cineflix-movies`, then add an R2 binding named `MOVIES_BUCKET` to both production and preview Pages Functions. After that, add a secure upload endpoint using authenticated uploads and file-size limits.
 
-### Current storage limitation
-Movie entries are stored in the current browser's local storage. They do not upload video files and are not shared with other visitors or devices. Export/import lets you move a backup manually.
+R2 activation must be completed in the Cloudflare Dashboard before it can be managed through the API. Cloudflare returned an R2-not-enabled response for this account.
 
-## For a shared public streaming catalog
-Connect a backend such as Supabase (database, authentication, and video/image storage). The public site should only use a publishable/anonymous client key with strict Row Level Security; never put a service-role key or other secret in browser code. Configure an authenticated admin account and storage limits before accepting uploads.
+## Backend
+- Pages Function: `functions/api/movies.js`
+- D1 database: `cineflix-catalog`
+- D1 binding: `CINEFLIX_DB`
+- Required Pages secret: `CINEFLIX_ADMIN_TOKEN`
 
-Only publish media you own or have explicit distribution rights to. This project does not provide copyrighted movie files.
+The public API only lists published movies. Creating and deleting entries require the admin key. The API accepts HTTPS poster/video URLs and records rights/license information.
 
-## Deploy with Cloudflare Pages
+## Local development
+Open `index.html` for the static fallback, or use Wrangler Pages dev with the D1 binding configured to test the Functions API.
 
-This repository is connected to the Cloudflare Pages project **cineflix-stream**. Production uses the `main` branch and serves this static site from the repository root (no build command required). New commits to `main` trigger production deployments.
-
-Live site: https://cineflix-stream.pages.dev
-
-## Site discovery and security
-
-Cloudflare Pages serves the following root-level files automatically:
-- `robots.txt` allows search crawlers and points to the sitemap.
-- `sitemap.xml` lists the public homepage.
-- `_headers` adds browser security headers and a Content Security Policy compatible with the site's inline app and current media/font hosts.
-
-The homepage also includes canonical, Open Graph, Twitter-card, and SVG favicon metadata. Review the Content Security Policy if you add new third-party image, video, font, or script providers.
+## Legal
+Only publish media you own, have licensed, or have verified permission to distribute. A movie's availability on a third-party site does not itself grant streaming or redistribution rights.
