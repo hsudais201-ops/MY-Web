@@ -1,22 +1,32 @@
 # CineFlix
 
-A Netflix-inspired, responsive free-movie catalog built as a lightweight static website.
+A responsive, Netflix-inspired movie catalog for films you own, created, or are authorized to distribute.
 
 ## Features
 - Dark streaming-style homepage and featured movie
 - Search and genre filters
 - Responsive movie cards for phones, tablets, and desktop
 - In-page video player
-- Add-movie form for title, genre, year, duration, poster, video URL, and description
+- Add movies with title, category, year, duration, poster URL, video URL, and description
+- Local movie library manager with delete, JSON export, and JSON import
 - One sample short film: **Big Buck Bunny** (Blender Foundation, Creative Commons Attribution 3.0)
 
 ## Run locally
 Open `index.html` in a browser, or serve this folder with any static web server.
 
 ## Publish with GitHub Pages
-In the repository settings, open **Pages**, choose **Deploy from a branch**, select `main` and `/ (root)`, then save. GitHub Pages will publish the static site.
+1. Open repository **Settings → Pages**.
+2. Choose **Deploy from a branch**.
+3. Select branch `main` and folder `/ (root)`.
+4. Save and wait for GitHub Pages to publish the site.
 
-## Adding movies
-Use **＋ Add movie** on the site. Add only movies you own, created, or are authorized to distribute. Use a direct MP4/WebM URL for the video and a public poster-image URL.
+## Add and manage movies
+Use **＋ Add movie** to add a movie, then **Manage** to remove entries or export/import a JSON backup.
 
-**Important demo limitation:** movies added through the form are saved in the current browser's local storage. They are not uploaded and will not appear for other visitors or on other devices. To run a real shared streaming service, connect a backend/database, authenticated admin access, and a video hosting/CDN provider. Do not upload copyrighted movies unless you have distribution rights.
+### Current storage limitation
+Movie entries are stored in the current browser's local storage. They do not upload video files and are not shared with other visitors or devices. Export/import lets you move a backup manually.
+
+## For a shared public streaming catalog
+Connect a backend such as Supabase (database, authentication, and video/image storage). The public site should only use a publishable/anonymous client key with strict Row Level Security; never put a service-role key or other secret in browser code. Configure an authenticated admin account and storage limits before accepting uploads.
+
+Only publish media you own or have explicit distribution rights to. This project does not provide copyrighted movie files.
