@@ -30,3 +30,9 @@ Movie entries are stored in the current browser's local storage. They do not upl
 Connect a backend such as Supabase (database, authentication, and video/image storage). The public site should only use a publishable/anonymous client key with strict Row Level Security; never put a service-role key or other secret in browser code. Configure an authenticated admin account and storage limits before accepting uploads.
 
 Only publish media you own or have explicit distribution rights to. This project does not provide copyrighted movie files.
+
+## Deploy with Cloudflare Pages
+
+This repository is connected to the Cloudflare Pages project **cineflix-stream**. Production uses the `main` branch and serves this static site from the repository root (no build command required). New commits to `main` trigger production deployments.
+
+Live site: https://cineflix-stream.pages.dev
