@@ -36,3 +36,12 @@ Only publish media you own or have explicit distribution rights to. This project
 This repository is connected to the Cloudflare Pages project **cineflix-stream**. Production uses the `main` branch and serves this static site from the repository root (no build command required). New commits to `main` trigger production deployments.
 
 Live site: https://cineflix-stream.pages.dev
+
+## Site discovery and security
+
+Cloudflare Pages serves the following root-level files automatically:
+- `robots.txt` allows search crawlers and points to the sitemap.
+- `sitemap.xml` lists the public homepage.
+- `_headers` adds browser security headers and a Content Security Policy compatible with the site's inline app and current media/font hosts.
+
+The homepage also includes canonical, Open Graph, Twitter-card, and SVG favicon metadata. Review the Content Security Policy if you add new third-party image, video, font, or script providers.
