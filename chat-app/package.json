@@ -1,0 +1,11 @@
+{
+  "name": "chat-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node -e \"console.log('Vercel serverless app')\""
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2"
+  }
+}
